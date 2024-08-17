@@ -56,9 +56,5 @@ npm install -g pnpm
 ```
 
 
-## Style Code
-- penulisan variabel, file .js dan folder menggunakan gaya snake_case
-- penulisan nama fungsi menggunakan gaya camelCase
-
 ## Author
 ### Handrawan - Nodejs Developer
