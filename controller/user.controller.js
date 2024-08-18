@@ -49,7 +49,7 @@ module.exports = {
             {
               sign: "401",
             },
-            res, "Password and Username not match!"
+            res, "Email or password not match!"
           );
         }
       }
