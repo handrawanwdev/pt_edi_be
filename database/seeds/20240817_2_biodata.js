@@ -13,6 +13,7 @@ exports.seed = async function (knex) {
     {
       id: 1,
       hash: "6685fb4559d2e0ed6c000000",
+      position: "Backend Developer",
       name: "Handrawan",
       ktp: "1234567890123456",
       birth: "1990-01-20",
@@ -27,6 +28,7 @@ exports.seed = async function (knex) {
       contact_person: "Bapak",
       willing: "Full Time",
       salary: "Rp. 10.000.000",
+      users_id: 2,
     },
    
   ]);

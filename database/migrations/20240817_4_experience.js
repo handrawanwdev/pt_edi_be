@@ -11,8 +11,7 @@
 // },
 exports.up = function(knex) {
     return knex.schema.createTableIfNotExists("experience",function(table){
-      table.increments();
-      table.string("hash",24).notNullable();
+      table.string("hash",24).notNullable().primary();
       table.string("company",255).notNullable();
       table.string("last_position",255).notNullable();
       table.string("last_income",255).notNullable();

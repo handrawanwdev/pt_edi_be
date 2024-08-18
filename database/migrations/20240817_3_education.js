@@ -12,8 +12,7 @@
 // },
 exports.up = function(knex) {
     return knex.schema.createTableIfNotExists("education",function(table){
-      table.increments();
-      table.string("hash",24).notNullable();
+      table.string("hash",24).notNullable().primary();
       table.string("education",32).defaultTo(null);
       table.string("institution",64).defaultTo(null);
       table.string("major",32).defaultTo(null);

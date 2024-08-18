@@ -2,13 +2,14 @@ const Joi=require("joi");
 
 module.exports = {
     login: Joi.object({
-        username: Joi.string().required(),
+        email: Joi.string().required(),
         password: Joi.string().required(),
     }),
     register: Joi.object({
-        name : Joi.string().required(),
+        email : Joi.string().email().required(),
         username: Joi.string().required(),
         password: Joi.string().required(),
+        re_password: Joi.string().required().valid(Joi.ref('password')),
     }),
     update_password: Joi.object({
         password: Joi.string().required(),

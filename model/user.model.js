@@ -50,7 +50,7 @@ module.exports = {
       .returning("*");
   },
 
-  getAccount: async ({ id, username, hash }) => {
+  getAccount: async ({ id, username, email, hash }) => {
     let query = knex.select("*").from("users");
 
     if (id) {
@@ -61,6 +61,10 @@ module.exports = {
       query.where("username", username);
     }
 
+    if (email) {
+      query.where("email", email);
+    }
+
     if (hash) {
       query.where("hash", hash);
     }
@@ -68,11 +72,10 @@ module.exports = {
     return query.first();
   },
 
-  createAccount: async ({ name, username, password, is_admin }) => {
+  createAccount: async ({ username, email, password, is_admin }) => {
     return knex.transaction(async (trx) => {
-      let users=await trx("users").insert({ name, username, password, is_admin, hash:String(ObjectID(Date.now())) }).returning("*");
+      let users=await trx("users").insert({ username, email, password, is_admin, hash:String(ObjectID(Date.now())) }).returning("*");
       if(!users || users.length==0) throw new Error("Failed to create user");
-      await trx("wallet").insert({ users_id:users[0].id, balance:0 });
       return users;
     });
   },

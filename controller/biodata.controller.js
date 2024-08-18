@@ -4,7 +4,9 @@ const response = require("../helper/response");
 module.exports = {
   getAllData: async (req, res) => {
     try {
-      let data = await biodata_model.getAllData(req.query);
+      const users_id = req.decoded.id;
+      const is_admin = req.decoded.is_admin;
+      let data = await biodata_model.getAllData(req.query,{users_id,is_admin});
 
       return response.ok(data, res, "Sukses menampilkan data");
     } catch (error) {
@@ -31,7 +33,8 @@ module.exports = {
 
   insertData: async (req, res) => {
     try {
-      await biodata_model.insertData(req.body);
+      const users_id = req.decoded.id;
+      await biodata_model.insertData(req.body,users_id);
 
       return response.created(req.body, res, "Data berhasil ditambahkan");
     } catch (error) {
@@ -42,9 +45,24 @@ module.exports = {
 
   updateData: async (req, res) => {
     try {
-      await biodata_model.updateData(req.params.id, req.body);
+      let users_id = req.decoded.id;
+      let id = req.params.id;
+
+      // Fungsi untuk mengecek apakah user yang login adalah admin
+      if(req.decoded.is_admin){
+        await biodata_model.updateData(id, req.body);
+      }else{
+        // Fungsi untuk mengecek data yang akan diupdate apakah data tersebut milik user yang login
+        let data = await biodata_model.getDataById(id);
+        if(data.users_id != users_id){
+          return response.error({}, res, "Data tidak ditemukan");
+        }else{
+          await biodata_model.updateData(id, req.body);
+        }
+      }
 
       return response.ok(req.body, res, "Data berhasil diupdate");
+      
     } catch (error) {
       console.log(error);
       return response.error({}, res, error.message);

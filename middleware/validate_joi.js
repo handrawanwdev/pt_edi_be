@@ -11,7 +11,7 @@ module.exports = {
                     list_error=list_error.map((item)=>({'message':item.message,'code':'1350'}));
                 }
                 let catch_error = list_error.length>0?list_error[0]:{};
-                return response.bad(catch_error,res);
+                return response.bad({},res,catch_error.message);
             }
             next();
         }
@@ -26,7 +26,7 @@ module.exports = {
                     list_error=list_error.map((item)=>({'message':item.message,'code':'1350'}));
                 }
                 let catch_error = list_error.length>0?list_error[0]:{};
-                return response.bad(catch_error,res);
+                return response.bad({},res,catch_error.message);
             }
             next();
         }
@@ -41,7 +41,7 @@ module.exports = {
                     list_error=list_error.map((item)=>({'message':item.message,'code':'1350'}));
                 }
                 let catch_error = list_error.length>0?list_error[0]:{};
-                return response.bad(catch_error,res);
+                return response.bad({},res,catch_error.message);
             }
             next();
         }
@@ -56,7 +56,7 @@ module.exports = {
                     list_error=list_error.map((item)=>({'message':item.message,'code':'1350'}));
                 }
                 let catch_error = list_error.length>0?list_error[0]:{};
-                return response.bad(catch_error,res);
+                return response.bad({},res,catch_error.message);
             }
             next();
         }

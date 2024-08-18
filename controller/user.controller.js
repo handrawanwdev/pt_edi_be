@@ -7,9 +7,9 @@ const jwt_token = require("../helper/jwt_token.js");
 module.exports = {
   login: async (req, res, next) => {
     try {
-      let { username, password } = req.body;
+      let { email, password } = req.body;
 
-      let account = await user_model.getAccount({ username });
+      let account = await user_model.getAccount({ email });
 
       if (!account) {
         // account not found
@@ -17,7 +17,7 @@ module.exports = {
           {
             sign: "401",
           },
-          res, "Username or Password not match!"
+          res, "Email or Password not match!"
         );
       } else {
         let correct_password = await hashing.checkPass(
@@ -29,6 +29,7 @@ module.exports = {
           let token = await jwt_token.generateToken({
             id: account.id,
             username: account.username,
+            email: account.email,
             is_admin: account.is_admin,
           });
 
@@ -37,6 +38,8 @@ module.exports = {
               sign: "0000",
               access_token: token,
               token_type: "bearer",
+              username: account.username,
+              is_admin: account.is_admin,
             },
             res, "Login Success!"
           );
@@ -74,7 +77,7 @@ module.exports = {
 
   register: async (req, res, next) => {
     try {
-      let { name, username, password } = req.body;
+      let { email, username, password } = req.body;
 
       let checkUsername = await user_model.getAccount({ username });
 
@@ -90,7 +93,7 @@ module.exports = {
         let hashed_password = await hashing.hashPass(password);
 
         let new_account = await user_model.createAccount({
-          name,
+          email,
           username,
           password: hashed_password,
           is_admin: 0,
@@ -256,6 +259,48 @@ module.exports = {
             res, "Ops... we have a problem, please try again later!"
           );
         }
+      }
+    }
+  },
+
+  verifyJwt: async (req, res, next) => {
+    try {
+      let { token } = req.body;
+      // console.log(token,"jwt");
+      
+      jwt_token.verifytoken(token,(err,decoded)=>{
+        if(err){
+          return response.unauthorized(
+            {
+              sign: "401",
+              header: "Unauthorized",
+            },
+            res, "Token is invalid"
+          );
+        }else{
+          return response.ok({
+            sign: "200",
+            header: "Success",
+            payload: decoded
+          }, res, "Token is valid");
+        }
+      });
+    } catch (error) {
+      console.log(error.stack);
+      if (process.env.NODE_ENV === "development") {
+        return response.error(
+          {
+            sign: "9998",
+          },
+          res, error.message
+        );
+      } else {
+        return response.error(
+          {
+            sign: "9999",
+          },
+          res, "Ops... we have a problem, please try again later!"
+        );
       }
     }
   },

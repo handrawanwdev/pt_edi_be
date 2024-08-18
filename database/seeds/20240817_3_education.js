@@ -11,7 +11,6 @@ exports.seed = async function (knex) {
   // await knex('education').del();
   await knex("education").insert([
     {
-      id: 1,
       hash: "66c0df4dd7c0407fe4dff953",
       education: "S1",
       institution: "Universitas Indonesia",

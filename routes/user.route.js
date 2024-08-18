@@ -13,6 +13,7 @@ router.patch("/update_password",auth.authjwt,validate.body(schemas.update_passwo
 
 router.get("/",auth.authjwt,auth.authIsAdmin,controller.getAllUser);
 router.get("/:id",auth.authjwt,auth.authIsAdmin,controller.getUserById);
+router.post("/verify_jwt",controller.verifyJwt);
 router.post("/",auth.authjwt,auth.authIsAdmin,validate.body(schemas.createUser),controller.createUser);
 router.patch("/:id",auth.authjwt,auth.authIsAdmin,validate.body(schemas.updateUser),controller.updateUser);
 router.delete("/:id",auth.authjwt,auth.authIsAdmin,controller.deleteUser);

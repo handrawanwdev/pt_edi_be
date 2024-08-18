@@ -11,7 +11,6 @@ exports.seed = async function (knex) {
   // await knex('skill').del();
   await knex("skill").insert([
     {
-      id: 1,
       hash: "66c0df54b8ed3113abf0a673",
       course: "React JS",
       certification: "Ada",

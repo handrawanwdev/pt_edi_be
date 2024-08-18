@@ -10,8 +10,7 @@
 // },
 exports.up = function(knex) {
     return knex.schema.createTableIfNotExists("skill",function(table){
-      table.increments();
-      table.string("hash",24).notNullable();
+      table.string("hash",24).notNullable().primary();
       table.string("course",64).defaultTo(null);
       table.string("certification",64).defaultTo(null);
       table.string("year",4).defaultTo(null);
